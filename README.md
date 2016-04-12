@@ -47,4 +47,4 @@ The script accepts some parameters but they are all optionals. If no parameters 
 
 ##Installation
 This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\ImdbExtrasDownloader.ps1```.
-To automate the process I have included a "indows scheduler task to execute the script daily at 4 in the morning. Just import the imdbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
+To automate the process I have included a Windows scheduler task to execute the script daily at 4 in the morning. Just import the imdbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
