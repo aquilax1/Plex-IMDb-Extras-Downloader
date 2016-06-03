@@ -6,14 +6,14 @@ If you don't have a [Plex Pass](https://plex.tv/subscription/about), but you wou
 This script has been inspired from another [script](https://forums.plex.tv/discussion/121599/auto-download-missing-trailers-from-idmb-for-all-movies-in-collection). But I had a few issues with that script:
 
 1. It is a bash script, which doesn't work on Windows, or at least you have to install Cygwin to run bash scripts on Windows
-2. It access directly the database of Plex to get the IMDb Id of the movies, and to do that it requires the SQLite drivers, another software to install
+2. It accesses directly the database of Plex to get the IMDb Id of the movies, and to do that it requires the SQLite drivers, another software to install
 3. It downloads the videos from Youtube and also for this task it requires an external application, namely youtube-dl
 4. Last but not least it seems to be broken
 
 So I took the idea but I remade the script in [Powershell](https://msdn.microsoft.com/en-us/powershell/mt173057.aspx), which is the scripting language of Windows, so it doesn't require Cgwin.
-Then it uses the [Plex rest service](https://support.plex.tv/hc/en-us/articles/201638786-Plex-Media-Server-URL-Commands) to get the IMDb Id, therefore it doesn't require to access the database of Plex, which is in general a very bad practice, thus it doesn't require the SQLite drivers.
+Then it uses the [Plex rest service](https://support.plex.tv/hc/en-us/articles/201638786-Plex-Media-Server-URL-Commands) to get the IMDb Id, therefore it doesn't require to access the database of Plex, what is in general a very bad practice, thus it doesn't require the SQLite drivers.
 Last IMDb has already the videos on their server and to download them it's enough a simple HTTP request, thus it doesn't need to download them from Youtube, which means that it doesn't need the youtube-dl.
-To summarize the beauty of this script is that it doesn't need any other application, it requires only Powershell, which is already part on Windows.
+To summarize the beauty of this script is that it doesn't need any other application, it requires only Powershell, which is already part of Windows.
 
 ##How this script works
 This script is quite smart, it uses the Plex rest service to get the required information about the movie collections, then it downloads the extra content from IMDb.
@@ -28,9 +28,9 @@ To find the movie on IMDb, it uses the IMDb id, which Plex saves in the database
 | Trailer | Trailer |
 | Video | BehindTheScenes |
 
-On IMDb the videos are limited to 30 per page, the scripts parse only the first two pages, which means that it can download at maximum 60 videos per movie, but until now I haven't see a movie with more than 50 videos. Sometimes two or more videos can have the same name, in this case the script just appends at the end of the name one or more white spaces until the name is unique.
+On IMDb the videos are limited to 30 per page, the script parses only the first two pages, this means that it can download at maximum 60 videos per movie, but until now I haven't see a movie with more than 50 videos. Sometimes two or more videos can have the same name, in this case the script just appends at the end of the name one or more white spaces until the name is unique.
 
-At the end it creates a XML file named **imdb_extas.xml, this file is very important, don't delete it**, because this file is to mark a movie as processed, this means that if the file is present in the directory of the movie, the script considers the movie as already processed and skips it. To reprocess a movie just delete this file.
+At the end it creates a XML file named **imdb_extas.xml, this file is very important, don't delete it**, because this file is to mark a movie as processed, this means that if the file is present in the directory of the movie, the script considers the movie as already processed and skips it. To reprocess a movie again just delete this file.
 
 The imdb_extas.xml contains the information about the downloaded videos:
 * IMDb Id of the video
