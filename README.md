@@ -1,4 +1,4 @@
-# IMDb Extras Downloader
+# Plex IMDb Extras Downloader
 
 ##Introduction
 This script has been made for [Plex](https://plex.tv), to download all the extra videos available on IMDb.
@@ -39,7 +39,7 @@ The imdb_extas.xml contains the information about the downloaded videos:
 * The download URL of the video
 
 ##Parameters
-The script accepts some parameters but they are all optionals. If no parameters are passed to the scripts, it downloads all the videos for all the movies in all the libraries.
+The script accepts some parameters but they are all optional. If no parameter are passed to the script, it will download all the videos for all the movies in all the libraries.
 * extras: This parameter filter the video categories, if omitted, the script downloads all the categories, otherwise only the specified one, for example to download only the trailers and the interviews use the following argument ```-extras Trailer,Interview```
 * libraries: This parameter filter the Plex libraries, if omitted, the script processes all the movies in all the libraries, otherwise only the specified one, for example to process only the "Movies" library use the following argument ```-libraries Movies```
 * plex: This parameter is to change the Plex URL, if omitted, the script uses the default URL and port, which is ```http://localhost:32400```
@@ -47,4 +47,4 @@ The script accepts some parameters but they are all optionals. If no parameters 
 
 ##Installation
 This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\ImdbExtrasDownloader.ps1```.
-To automate the process I have included a Windows scheduler task to execute the script daily at 4 in the morning. Just import the imdbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
+To automate the process I have included a Windows scheduler task to execute the script daily at 4 o'clock in the morning. Just import the imdbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
