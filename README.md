@@ -46,5 +46,5 @@ The script accepts some parameters but they are all optional. If no parameter ar
 * max: This parameter limit the number of processed movies, if omitted, the script processes all the movies, otherwise it processes only "max" movies, for example to process only the first 10 movies use the following argument ```-max 10```
 
 ##Installation
-This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\ImdbExtrasDownloader.ps1```.
-To automate the process I have included a Windows scheduler task to execute the script daily at 4 o'clock in the morning. Just import the imdbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
+This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\PlexIMDbExtrasDownloader.ps1```.
+To automate the process I have included a Windows scheduler task to execute the script daily at 4 o'clock in the morning. Just import the PlecxIMDbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
