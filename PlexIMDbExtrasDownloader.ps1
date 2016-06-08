@@ -7,15 +7,18 @@ $map=@{"Clip"="Scene";"Featurette"="Featurette";"Interview"="Interview";"Promo"=
 #get all the library and filter them if $libraries is defined
 $dirs=([xml]$web.DownloadString($plex+"/library/sections")).MediaContainer.Directory | where {$libraries -eq $Null -or $libraries -contains $_.title }
 #get all  the movies of the libraries, select only the needed data and esclude all the already processed movies, which have the imdb_extras.xml file in their folder
-$movies=$dirs | foreach{([xml]$web.DownloadString(($plex+"/library/sections/{0}/all") -F $_.key)).MediaContainer.Video | where {$_.type -eq "movie"} | select -p key, title, @{Name="path"; Expression={(split-path -Path ([System.Uri]::UnescapeDataString($_.Media.Part.file)))}}, @{Name="imdb"; Expression={}} | where {!(test-path -LiteralPath ($_.path+"\imdb_extras.xml"))}} | sort -p title
+$movies=$dirs | foreach{([xml]$web.DownloadString(($plex+"/library/sections/{0}/all") -F $_.key)).MediaContainer.Video | where {$_.type -eq "movie"} | select -p key, title, year, @{Name="path"; Expression={(split-path -Path ([System.Uri]::UnescapeDataString($_.Media.Part.file)))}}, @{Name="imdb"; Expression={}} | where {!(test-path -LiteralPath ($_.path+"\imdb_extras.xml"))}} | sort -p title
 if ($movies -eq $Null) { write-host (get-date) "All the movies have already been processed" }
 else
 {
-	#get imdb movie id from the movie detail
-	$movies | foreach { $doc.Load($plex+$_.key); $_.imdb=[regex]::match($doc.MediaContainer.Video.guid,"imdb://(.*)\?").Groups[1].Value }
+	#get imdb id from the movie details
+	$movies | foreach { $doc.Load($plex+$_.key); $_.imdb=[regex]::match($doc.MediaContainer.Video.guid,"imdb://(.*)\?").Groups[1].Value}
+	#search imdb id of unmatched movies with ombd with movie title and year 
+	$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach { $doc.Load(("http://www.omdbapi.com/?t={0}&y={1}&plot=short&r=xml" -F $_.title, $_.year)); $_.imdb=$doc.root.movie.imdbID}
+	#get titles of unmatched movies 
 	$nomatches=$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach {$_.title}
 	if ($nomatches -ne $Null)  { write-host (get-date) "There are unmached movies: " ($nomatches -join ", ") }
-	#removing movies without imdb key, which aren't yet identified by plex
+	#removing movies without imdb key, which aren't yet identified by plex or with omdb
 	$movies=$movies | where { ![System.String]::IsNullOrEmpty($_.imdb) }
 	if ($movies -eq $Null) { write-host (get-date) "All other movies have already been processed" }
 	else
