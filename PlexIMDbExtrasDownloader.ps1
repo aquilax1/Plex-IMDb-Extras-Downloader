@@ -14,7 +14,7 @@ else
 	#get imdb id from the movie details
 	$movies | foreach { $doc.Load($plex+$_.key); $_.imdb=[regex]::match($doc.MediaContainer.Video.guid,"imdb://(.*)\?").Groups[1].Value}
 	#search imdb id of unmatched movies with ombd with movie title and year 
-	$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach { $doc.Load(("http://www.omdbapi.com/?t={0}&y={1}&plot=short&r=xml" -F $_.title, $_.year)); $_.imdb=$doc.root.movie.imdbID}
+	$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach { $doc.Load(("http://www.omdbapi.com/?t={0}&y={1}&plot=short&r=xml" -F [System.Uri]::EscapeDataString($_.title), $_.year)); $_.imdb=$doc.root.movie.imdbID}
 	#get titles of unmatched movies 
 	$nomatches=$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach {$_.title}
 	if ($nomatches -ne $Null)  { write-host (get-date) "There are unmached movies: " ($nomatches -join ", ") }
