@@ -51,4 +51,5 @@ To automate the process I have included a Windows scheduler task to execute the 
 
 ##Support Me
 I have invested quite some time to write this script, if you have found this script useful, consider give me a little of this time back and join the other users, who have opened a Dropbox account using my referral link: [https://db.tt/NO2L9ANq](https://db.tt/NO2L9ANq)
+
 Thank you!
