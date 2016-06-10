@@ -49,6 +49,6 @@ The script accepts some parameters but they are all optional. If no parameter ar
 This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\PlexIMDbExtrasDownloader.ps1```.
 To automate the process I have included a Windows scheduler task to execute the script daily at 4 o'clock in the morning. Just import the PlexIMDbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
 
-#Support Me
+##Support Me
 I have invested quite some time to write this script, if you have found this script useful, consider give me a little of this time back and join the other users, who have opened a Dropbox account using my referral link: [https://db.tt/NO2L9ANq](https://db.tt/NO2L9ANq)
 Thank you!
