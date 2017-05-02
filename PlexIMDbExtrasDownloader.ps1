@@ -1,18 +1,18 @@
-param([String[]] $extras, [String[]] $libraries, [String] $plex="http://localhost:32400", [Int] $max=0)
+param([String[]] $extras, [String[]] $libraries, [String] $plex="http://localhost:32400", [Int] $max=0, [String] $token)
 Function Remove-InvalidFileNameChars { param([Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)][String]$Name) $invalidChars = [IO.Path]::GetInvalidFileNameChars() -join ''; $re = "[{0}]" -f [RegEx]::Escape($invalidChars); return ($Name -replace $re)}
 $web=New-Object System.Net.WebCLient
 $doc=New-Object System.Xml.XmlDocument
 #imdb video types to plex extra content type mapping
 $map=@{"Clip"="Scene";"Featurette"="Featurette";"Interview"="Interview";"Promo"="Short";"Trailer"="Trailer";"Video"="BehindTheScenes"}
 #get all the library and filter them if $libraries is defined
-$dirs=([xml]$web.DownloadString($plex+"/library/sections")).MediaContainer.Directory | where {$libraries -eq $Null -or $libraries -contains $_.title }
+$dirs=([xml]$web.DownloadString($plex+"/library/sections?X-Plex-Token="+$token)).MediaContainer.Directory | where {$libraries -eq $Null -or $libraries -contains $_.title }
 #get all  the movies of the libraries, select only the needed data and esclude all the already processed movies, which have the imdb_extras.xml file in their folder
-$movies=$dirs | foreach{([xml]$web.DownloadString(($plex+"/library/sections/{0}/all") -F $_.key)).MediaContainer.Video | where {$_.type -eq "movie"} | select -p key, title, year, @{Name="path"; Expression={(split-path -Path ([System.Uri]::UnescapeDataString($_.Media.Part.file)))}}, @{Name="imdb"; Expression={}} | where {!(test-path -LiteralPath ($_.path+"\imdb_extras.xml"))}} | sort -p title
+$movies=$dirs | foreach{([xml]$web.DownloadString(($plex+"/library/sections/{0}/all?X-Plex-Token="+$token) -F $_.key)).MediaContainer.Video | where {$_.type -eq "movie"} | select -p key, title, year, @{Name="path"; Expression={(split-path -Path ([System.Uri]::UnescapeDataString($_.Media.Part.file)))}}, @{Name="imdb"; Expression={}} | where {!(test-path -LiteralPath ($_.path+"\imdb_extras.xml"))}} | sort -p title
 if ($movies -eq $Null) { write-host (get-date) "All the movies have already been processed" }
 else
 {
 	#get imdb id from the movie details
-	$movies | foreach { $doc.Load($plex+$_.key); $_.imdb=[regex]::match($doc.MediaContainer.Video.guid,"imdb://(.*)\?").Groups[1].Value}
+	$movies | foreach { $doc.Load($plex+$_.key+"?X-Plex-Token="+$token); $_.imdb=[regex]::match($doc.MediaContainer.Video.guid,"imdb://(.*)\?").Groups[1].Value}
 	#search imdb id of unmatched movies with ombd with movie title and year 
 	$movies | where { [System.String]::IsNullOrEmpty($_.imdb) } | foreach { $doc.Load(("http://www.omdbapi.com/?t={0}&y={1}&plot=short&r=xml" -F [System.Uri]::EscapeDataString($_.title), $_.year)); $_.imdb=$doc.root.movie.imdbID}
 	#get titles of unmatched movies 
