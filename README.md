@@ -1,6 +1,6 @@
 # Plex IMDb Extras Downloader
 
-##Introduction
+## Introduction
 This script has been made for [Plex](https://plex.tv), to download all the extra videos available on IMDb.
 If you don't have a [Plex Pass](https://plex.tv/subscription/about), but you would like to have automatically downloaded the extra content for your movies, this script is for you.
 This script has been inspired from another [script](https://forums.plex.tv/discussion/121599/auto-download-missing-trailers-from-idmb-for-all-movies-in-collection). But I had a few issues with that script:
@@ -15,7 +15,7 @@ Then it uses the [Plex rest service](https://support.plex.tv/hc/en-us/articles/2
 Last IMDb has already the videos on their server and to download them it's enough a simple HTTP request, thus it doesn't need to download them from Youtube, which means that it doesn't need the youtube-dl.
 To summarize the beauty of this script is that it doesn't need any other application, it requires only Powershell, which is already part of Windows.
 
-##How this script works
+## How this script works
 This script is quite smart, it uses the Plex rest service to get the required information about the movie collections, then it downloads the extra content from IMDb.
 To find the movie on IMDb, it uses the IMDb id, which Plex saves in the database when it matches a movie. The videos on IMDb are also categorized, but they don't use the same categories of Plex, thus the script maps the IMDb categories as follow:
 
@@ -38,7 +38,7 @@ The imdb_extas.xml contains the information about the downloaded videos:
 * The file name of the video
 * The download URL of the video
 
-##Parameters
+## Parameters
 The script accepts some parameters but they are all optional. If no parameter are passed to the script, it will download all the videos for all the movies in all the libraries.
 * extras: This parameter filter the video categories, if omitted, the script downloads all the categories, otherwise only the specified one, for example to download only the trailers and the interviews use the following argument ```-extras Trailer,Interview```
 * libraries: This parameter filter the Plex libraries, if omitted, the script processes all the movies in all the libraries, otherwise only the specified one, for example to process only the "Movies" library use the following argument ```-libraries Movies```
@@ -49,11 +49,11 @@ The script accepts some parameters but they are all optional. If no parameter ar
 * token: This parameter is required only if Plex isn't configured to grant access without authentication. In the Plex configuration  it is possible to grant the access without authentication to a list of IP addresses or IP net masks, for example from a local network with the net mask 192.168.0.0/24
 * omdbapikey: This parameter is to query the O(pen)MDBApi (http://www.omdbapi.com/) to find out the IMDb ID of a movie in case that Plex wasn't able to determine it. This parameter is not manadtory for the script to work, if no omdbapi key is given, the script just skips this step.
 
-##Installation
+## Installation
 This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\PlexIMDbExtrasDownloader.ps1```.
 To automate the process I have included a Windows scheduler task to execute the script daily at 4 o'clock in the morning. Just import the PlexIMDbExtrasDownloader.xml in Windows scheduler, once imported double click on the task and change the "working directory" in the "action" panel to the folder where you have saved the script.
 
-##Support Me
+## Support Me
 I have invested quite some time to write this script, if you have found this script useful, consider give me a little of this time back and join the other users, who have opened a Dropbox account using my referral link: [https://db.tt/NO2L9ANq](https://db.tt/NO2L9ANq)
 
 Thank you!
