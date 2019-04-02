@@ -44,6 +44,10 @@ The script accepts some parameters but they are all optional. If no parameter ar
 * libraries: This parameter filter the Plex libraries, if omitted, the script processes all the movies in all the libraries, otherwise only the specified one, for example to process only the "Movies" library use the following argument ```-libraries Movies```
 * plex: This parameter is to change the Plex URL, if omitted, the script uses the default URL and port, which is ```http://localhost:32400```
 * max: This parameter limit the number of processed movies, if omitted, the script processes all the movies, otherwise it processes only "max" movies, for example to process only the first 10 movies use the following argument ```-max 10```
+* removeFromWatched: Removes all the downloaded videos from the wathced movies to save space on the hard disk
+* filterRemove: The filter to apply to the movies to remove from wathched ones
+* token: Plex token, this is required only if plex isn't configured to grant access without authentication. In the PLex configuration  it is possible to grant the access without authentication to a list of IP addresses or IP net masks, for example from a local network with the net mask 192.168.0.0/24
+* omdbapikey: API key for the O(pen)MDBApi (http://www.omdbapi.com/). In case that Plex wasn't able to determine the IMDb Id of a movie, the script tries to determine it with the help of OMDbApi. The key is not required for the script to work, if no key is given, the script just skips this step.
 
 ##Installation
 This script hasn't an installer, just save the script somewhere in the hard disk and execute it: ```powershell -command .\PlexIMDbExtrasDownloader.ps1```.
