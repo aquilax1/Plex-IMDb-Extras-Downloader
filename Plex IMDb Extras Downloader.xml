@@ -40,7 +40,7 @@
   <Actions Context="Author">
     <Exec>
       <Command>powershell</Command>
-      <Arguments>-c "powershell -c .\PlexImdbExtrasDownloader.ps1 2&gt;&amp;1 &gt;&gt; .\PlexImdbExtrasDownloader.log"</Arguments>
+      <Arguments>-c "powershell -c .\PlexImdbExtrasDownloader.ps1 -extras Trailer 2&gt;&amp;1 &gt;&gt; .\PlexImdbExtrasDownloader.log"</Arguments>
       <WorkingDirectory>C:\Program Files (x86)\Plex</WorkingDirectory>
     </Exec>
   </Actions>
